@@ -1,0 +1,215 @@
+<title>CS329A 学习笔记</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --ground: #F4F7F5;
+  --surface: #FFFFFF;
+  --ink: #1B2521;
+  --muted: #5A6A63;
+  --rule: #D8E1DC;
+  --accent: #1B6350;
+  --accent-soft: #E1EFE9;
+  --mark: #85590D;
+  --mark-soft: #FAEFD8;
+  --code: #EAF0EC;
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
+  --sans: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #101613;
+    --surface: #171F1B;
+    --ink: #E2E9E5;
+    --muted: #93A39B;
+    --rule: #29342E;
+    --accent: #6FC7AA;
+    --accent-soft: #1A2B25;
+    --mark: #E3B75C;
+    --mark-soft: #2C2614;
+    --code: #1D2621;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #101613;
+  --surface: #171F1B;
+  --ink: #E2E9E5;
+  --muted: #93A39B;
+  --rule: #29342E;
+  --accent: #6FC7AA;
+  --accent-soft: #1A2B25;
+  --mark: #E3B75C;
+  --mark-soft: #2C2614;
+  --code: #1D2621;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.8;
+  -webkit-text-size-adjust: 100%;
+}
+a { color: var(--accent); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+
+.app {
+  display: grid;
+  grid-template-columns: 15.5rem minmax(0, 1fr);
+  gap: 3rem;
+  max-width: 78rem;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+/* ---------- rail ---------- */
+.rail {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  align-self: start;
+  max-height: 100vh;
+  overflow-y: auto;
+  padding-block: 2rem;
+}
+.brand { margin-bottom: 1.4rem; }
+.brand-name { font-family: var(--serif); font-weight: 700; font-size: 1.15rem; line-height: 1.35; }
+.brand-sub { color: var(--muted); font-size: 0.8rem; line-height: 1.5; margin-top: 0.3rem; }
+.lecs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.lecs a {
+  display: grid;
+  grid-template-columns: 1.7rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.lecs a:hover { background: var(--accent-soft); }
+.lecs a.on { background: var(--accent); color: var(--ground); }
+.lecs .n { font-family: var(--mono); font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.lecs a.on .n, .lecs a.on .d { color: inherit; opacity: 0.8; }
+.lecs .d { grid-column: 2; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+/* ---------- stage ---------- */
+.stage { position: relative; min-width: 0; padding-block: 2rem 5rem; }
+.lec { max-width: 47rem; }
+.lec.off { position: absolute; left: 0; right: 0; top: 0; height: 0; overflow: hidden; visibility: hidden; }
+
+.lec h1 { font-family: var(--serif); font-weight: 700; font-size: 1.95rem; line-height: 1.3; margin: 0 0 1rem; text-wrap: balance; }
+.lec h2 { font-family: var(--serif); font-weight: 700; font-size: 1.4rem; line-height: 1.35; margin: 3rem 0 1rem; padding-top: 1.4rem; border-top: 1px solid var(--rule); text-wrap: balance; }
+.lec h3 { font-weight: 600; font-size: 1.1rem; line-height: 1.45; margin: 2.2rem 0 0.7rem; text-wrap: balance; }
+.lec p { margin: 0 0 1rem; }
+.lec ul, .lec ol { margin: 0 0 1rem; padding-left: 1.35rem; }
+.lec li { margin-bottom: 0.4rem; }
+.lec li > ul, .lec li > ol { margin: 0.4rem 0 0.2rem; }
+.lec strong { font-weight: 600; }
+.lec code { font-family: var(--mono); font-size: 0.88em; background: var(--code); padding: 0.08em 0.35em; border-radius: 4px; }
+.lec pre.code { background: var(--code); padding: 0.9rem 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; line-height: 1.6; }
+.lec pre.code code { background: none; padding: 0; }
+
+.lec blockquote { margin: 0 0 1.2rem; padding: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+.lec blockquote p { margin: 0 0 0.2rem; }
+.lec blockquote.meta { padding-bottom: 0.4rem; }
+.lec blockquote.note { background: var(--mark-soft); color: var(--ink); padding: 0.7rem 0.95rem; border-radius: 6px; font-size: 0.88rem; }
+.lec blockquote.note p { margin: 0; }
+.lec li > blockquote { margin-top: 0.5rem; }
+
+.lec p.lead { background: var(--accent-soft); padding: 1rem 1.15rem; border-radius: 8px; font-size: 1.04rem; line-height: 1.8; margin-bottom: 1.4rem; }
+
+.tbl { overflow-x: auto; margin: 0 0 1.4rem; }
+.lec table { border-collapse: collapse; width: 100%; font-size: 0.9rem; line-height: 1.6; }
+.lec th { text-align: left; font-weight: 600; color: var(--muted); font-size: 0.82rem; padding: 0.45rem 0.7rem 0.45rem 0; border-bottom: 2px solid var(--rule); white-space: nowrap; }
+.lec td { padding: 0.5rem 0.7rem 0.5rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.lec td:first-child { min-width: 4.5rem; }
+
+a.ts { font-family: var(--mono); font-size: 0.86em; font-variant-numeric: tabular-nums; text-decoration: none; white-space: nowrap; }
+a.ts:hover { text-decoration: underline; }
+a.jump { display: inline-block; font-size: 0.8rem; line-height: 1.5; color: var(--mark); background: var(--mark-soft); padding: 0.05rem 0.6rem; border-radius: 999px; text-decoration: none; white-space: nowrap; font-style: normal; }
+a.jump:hover { text-decoration: underline; }
+
+figure.fig { margin: 1.6rem 0 1.8rem; background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1rem 0.85rem; }
+.fig-scroll { overflow-x: auto; }
+figure.fig pre.mermaid { margin: 0; background: none; text-align: center; font-family: var(--mono); font-size: 0.75rem; line-height: 1.5; color: var(--muted); white-space: pre; }
+figure.fig pre.mermaid svg { max-width: 100%; height: auto; }
+figure.fig .fig-scroll > svg { display: block; margin-inline: auto; max-width: 100%; min-width: 560px; height: auto; font-family: var(--sans); }
+figure.fig figcaption { margin-top: 0.75rem; padding-top: 0.65rem; border-top: 1px solid var(--rule); font-size: 0.84rem; line-height: 1.7; color: var(--muted); }
+figure.fig figcaption em { font-style: normal; }
+
+.pager { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 3.5rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); font-size: 0.92rem; }
+.pager a { text-decoration: none; }
+.pager a:hover { text-decoration: underline; }
+.pager .next { margin-left: auto; text-align: right; }
+
+@media (max-width: 880px) {
+  .app { grid-template-columns: minmax(0, 1fr); gap: 0; padding-inline: 16px; }
+  .rail { z-index: 5; max-height: none; overflow: visible; background: var(--ground); padding-block: 0.7rem 0.6rem; border-bottom: 1px solid var(--rule); margin-inline: -16px; padding-inline: 16px; }
+  .brand { margin-bottom: 0.5rem; display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+  .brand-name { font-size: 1rem; }
+  .brand-sub { margin-top: 0; font-size: 0.75rem; }
+  .lecs { flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 2px; scrollbar-width: none; }
+  .lecs::-webkit-scrollbar { display: none; }
+  .lecs a { grid-template-columns: auto auto; white-space: nowrap; border: 1px solid var(--rule); padding: 0.3rem 0.65rem; font-size: 0.85rem; }
+  .lecs a.on { border-color: var(--accent); }
+  .lecs .d { display: none; }
+  .stage { padding-block: 1.4rem 4rem; }
+  .lec h1 { font-size: 1.55rem; }
+  .lec h2 { font-size: 1.22rem; margin-top: 2.4rem; }
+  body { font-size: 15.5px; }
+}
+</style>
+
+<div class="app">
+  <nav class="rail" aria-label="讲次导航">
+    <div class="brand">
+      <div class="brand-name">CS329A 学习笔记</div>
+      <div class="brand-sub">Self-Improving AI Agents · Stanford 2025 秋 · 非官方个人笔记</div>
+    </div>
+    <ol class="lecs">
+<!--RAIL-->
+    </ol>
+  </nav>
+  <main class="stage">
+<!--LECTURES-->
+  </main>
+</div>
+
+<script>
+(function () {
+  var lecs = Array.prototype.slice.call(document.querySelectorAll('.lec'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('.lecs a[data-k]'));
+  function show(k, scroll) {
+    lecs.forEach(function (el) { el.classList.toggle('off', el.getAttribute('data-k') !== k); });
+    links.forEach(function (a) {
+      var on = a.getAttribute('data-k') === k;
+      a.classList.toggle('on', on);
+      if (on) {
+        a.setAttribute('aria-current', 'page');
+        if (a.scrollIntoView && window.matchMedia('(max-width: 880px)').matches) {
+          try { a.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) {}
+        }
+      } else {
+        a.removeAttribute('aria-current');
+      }
+    });
+    try { localStorage.setItem('cs329a.lec', k); } catch (e) {}
+    if (scroll) window.scrollTo(0, 0);
+  }
+  function fromHash() {
+    var m = /^#l(\d+)$/.exec(location.hash);
+    return m && document.getElementById('l' + m[1]) ? m[1] : null;
+  }
+  var k = fromHash();
+  if (k === null) { try { k = localStorage.getItem('cs329a.lec'); } catch (e) { k = null; } }
+  if (k === null || !document.getElementById('l' + k)) k = lecs.length ? lecs[0].getAttribute('data-k') : '0';
+  show(k, false);
+  window.addEventListener('hashchange', function () {
+    var h = fromHash();
+    if (h !== null) show(h, true);
+  });
+})();
+</script>
