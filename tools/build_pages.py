@@ -43,6 +43,7 @@ MERMAID = """
 </script>
 """
 
+ICON = '<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%231B6350%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27%3E%E7%AC%94%3C/text%3E%3C/svg%3E">'
 HOME_LINK = '<div class="brand-home"><a href="../">← 全部课程</a></div>'
 HOME_CSS = "<style>.brand-home{margin-top:.45rem;font-size:.8rem}.brand-home a{color:var(--muted)}</style>\n"
 
@@ -51,6 +52,7 @@ LANDING = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%231B6350%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-size=%2718%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27sans-serif%27%3E%E7%AC%94%3C/text%3E%3C/svg%3E">
 <title>Stanford AI 公开课中文学习笔记</title>
 <meta name="description" content="Stanford CS329A、CME295、CS224R、CS336 四门公开课的中文学习笔记：自绘示意图、公式、时间戳跳转，网页版与手机 PDF。">
 <style>
@@ -121,7 +123,7 @@ def course_page(cdir):
     mod.main()
     page = mod.OUT.read_text(encoding="utf-8")
     if not page.lstrip().lower().startswith("<!doctype"):
-        page = "<!doctype html>\n<html lang=\"zh-CN\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" + HOME_CSS + page
+        page = "<!doctype html>\n<html lang=\"zh-CN\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" + ICON + "\n" + HOME_CSS + page
     page = re.sub(r'(<div class="brand-sub">.*?</div>)', r"\1\n      " + HOME_LINK, page, count=1)
     page = page.replace("</body>", MERMAID + "</body>", 1) if "</body>" in page else page + MERMAID
     mod.OUT.write_text(page, encoding="utf-8")
