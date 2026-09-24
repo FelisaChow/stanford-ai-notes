@@ -44,7 +44,7 @@ MERMAID = """
 """
 
 HOME_LINK = '<div class="brand-home"><a href="../">← 全部课程</a></div>'
-HOME_CSS = "<style>.brand-home{margin-top:.45rem;font-size:.8rem}.brand-home a{color:var(--muted)}figure.fig svg{max-width:100%;height:auto}</style>\n"
+HOME_CSS = "<style>.brand-home{margin-top:.45rem;font-size:.8rem}.brand-home a{color:var(--muted)}</style>\n"
 
 LANDING = """<!doctype html>
 <html lang="zh-CN">
@@ -120,7 +120,8 @@ def course_page(cdir):
     mod.OUT = out_dir / "index.html"
     mod.main()
     page = mod.OUT.read_text(encoding="utf-8")
-    page = page.replace("</head>", HOME_CSS + "</head>", 1) if "</head>" in page else HOME_CSS + page
+    if not page.lstrip().lower().startswith("<!doctype"):
+        page = "<!doctype html>\n<html lang=\"zh-CN\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" + HOME_CSS + page
     page = re.sub(r'(<div class="brand-sub">.*?</div>)', r"\1\n      " + HOME_LINK, page, count=1)
     page = page.replace("</body>", MERMAID + "</body>", 1) if "</body>" in page else page + MERMAID
     mod.OUT.write_text(page, encoding="utf-8")
